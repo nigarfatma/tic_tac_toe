@@ -3,7 +3,9 @@ import "./css/style.css";
 
 function Tempapp() {
   const [city, setCity] = useState("");
-  const [search, setSearch] = useState("chennai");
+  const [search, setSearch] = useState("");
+  const [displayedCity, setDisplayedCity] = useState("");
+
   useEffect(() => {
     const fetchApi = async () => {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=016dc90a1f1e98d6d2d26d3c82eddee7`;
@@ -14,20 +16,37 @@ function Tempapp() {
     };
     fetchApi();
   }, [search]);
+
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+    setSearch(inputValue);
+    setDisplayedCity(inputValue);
+  };
+
+  const handleClearSearch = () => {
+    setSearch("");
+    setDisplayedCity("");
+  };
+
   return (
     <>
       <div className="box">
         <div className="inputData">
-          <input
-            type="search"
-            name=""
-            id=""
-            value={search}
-            className="inputField"
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-          />
+          <div className="inputFieldContainer">
+            <input
+              type="text"
+              name=""
+              id=""
+              value={displayedCity}
+              className="inputField"
+              onChange={handleSearch}
+            />
+            {displayedCity && (
+              <button className="clearButton" onClick={handleClearSearch}>
+                <i className="fa-solid fa-times"></i>
+              </button>
+            )}
+          </div>
         </div>
         {!city ? (
           <p className="errorMsg">No Data Found</p>
@@ -36,7 +55,7 @@ function Tempapp() {
             <div className="info">
               <h2 className="location">
                 <i className="fa-solid fa-street-view"></i>
-                {search}
+                {displayedCity}
               </h2>
               <h1 className="temp">{city.temp}°Cel</h1>
               <h3 className="tempmin_max">
