@@ -32,7 +32,9 @@ function Tempapp() {
     <>
       <div className="box">
         <div className="inputData">
+        <h4 className="heading">Search City</h4>
           <div className="inputFieldContainer">
+      
             <input
               type="text"
               name=""
